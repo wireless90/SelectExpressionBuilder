@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace SelectExpressionBuilder.Core
@@ -53,8 +52,8 @@ namespace SelectExpressionBuilder.Core
                 int closeIndex = propertyId.LastIndexOf("]");
 
                 Node node = new Node();
-                node.Projection.DisplayName = propertyId.Take(openIndex - 1).ToString();
-                node.Projection.PropertyId = propertyId.Skip(openIndex).Take(openIndex - closeIndex).ToString();
+                node.Projection.DisplayName = new string(propertyId.Take(openIndex).ToArray());
+                node.Projection.PropertyId = new string(propertyId.Skip(openIndex + 1).Take(closeIndex - openIndex - 1).ToArray());
                 node.Type = NodeType.LIST;
                 if (NoSimilarChildNodes(node.Projection.DisplayName))
                 {
@@ -83,10 +82,8 @@ namespace SelectExpressionBuilder.Core
             }
         }
 
-        private bool NoSimilarChildNodes(string propertyId)
-        {
-            throw new NotImplementedException();
-        }
+        private bool NoSimilarChildNodes(string displayName) =>
+            !ChildNodes.Any(node => node.Projection.DisplayName == displayName);
 
         private bool IsLeafProjection(string propertyId) =>
             ".[".All(c => !propertyId.Contains(c));

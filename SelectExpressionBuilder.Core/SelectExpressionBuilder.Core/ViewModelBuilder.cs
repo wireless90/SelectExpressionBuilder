@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace SelectExpressionBuilder.Core
 {
@@ -18,7 +17,7 @@ namespace SelectExpressionBuilder.Core
                 }
 
                 string build2 = sb.ToString();
-                build2 = build2.Take(build2.Length - 1).ToString();
+                build2 = build2.Substring(0, build2.Length - 1);
                 string ret = $"new {{ {build2 } }}";
                 return ret;
             }
@@ -27,7 +26,7 @@ namespace SelectExpressionBuilder.Core
                 string ret = $"{node.Projection.PropertyId} as {node.Projection.DisplayName},";
                 return ret;
             }
-            else if (node.Type == Node.NodeType.OBJECT) 
+            else if (node.Type == Node.NodeType.OBJECT)
             {
                 foreach (var childNode in node.ChildNodes)
                 {
@@ -37,7 +36,7 @@ namespace SelectExpressionBuilder.Core
                 }
 
                 string build2 = sb.ToString();
-                build2 = build2.Take(build2.Length - 1).ToString();
+                build2 = build2.Substring(0, build2.Length - 1);
                 string ret = $"new {{ { build2} }} as {node.Projection.DisplayName},";
                 return ret;
             }
@@ -51,7 +50,7 @@ namespace SelectExpressionBuilder.Core
                 }
 
                 string build2 = sb.ToString();
-                build2 = build2.Take(build2.Length - 1).ToString();
+                build2 = build2.Substring(0, build2.Length - 1);
                 string ret = $"{node.Projection.DisplayName}.Select(new {{ {build2} }}) as {node.Projection.DisplayName},";
                 return ret;
             }
