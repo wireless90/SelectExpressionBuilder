@@ -1,20 +1,25 @@
-﻿namespace SelectExpressionBuilder.Core.Console
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+
+namespace SelectExpressionBuilder.Core.Console
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Node root = new Node();
-            root.Add("Id")
-                .Add("PNames[Name]")
-                .Add("PName.Name")
-                .Add("PNames[Id]")
-                .Add("Gender")
-                .Add("PName.Id");
+            string[] propertyIds = new string[] 
+            {
+                "Id", "PNames[Name]", "PName.Name",
+                "PNames[Id]", "Gender", "PName.Id"
+            };
 
+            var people = Person.GetPeople().AsQueryable();
+            var result = people.ProjectToDynamic(propertyIds).ToDynamicList();
+            var json = JsonConvert.SerializeObject(result, Formatting.Indented);
 
-            ViewModelBuilder queryBuilder = new ViewModelBuilder();
-            string selectQuery = queryBuilder.Build(root);
+            System.Console.WriteLine(json);
         }
     }
 }

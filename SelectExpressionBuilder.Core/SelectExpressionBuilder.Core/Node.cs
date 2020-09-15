@@ -11,7 +11,7 @@ namespace SelectExpressionBuilder.Core
 
         public List<Node> ChildNodes { get; set; } = new List<Node>();
 
-        public NodeType Type { get; set; }
+        public NodeType Type { get; set; } = NodeType.ROOT;
 
         public Node Add(string propertyId)
         {

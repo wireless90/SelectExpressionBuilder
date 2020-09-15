@@ -2,7 +2,7 @@
 
 namespace SelectExpressionBuilder.Core
 {
-    public class ViewModelBuilder
+    public class SelectQueryBuilder
     {
         public string Build(Node node)
         {
